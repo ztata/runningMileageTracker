@@ -26,10 +26,10 @@
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" [routerLink]="['/login']">Login</a>
+          <a *ngIf="email === ''" class="nav-link active" aria-current="page" [routerLink]="['/login']">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/signup']">Sign Up</a>
+          <a *ngIf="email === ''" class="nav-link" [routerLink]="['/signup']">Sign Up</a>
         </li>
         <li class="nav-item">
           <a *ngIf="email != ''" class="nav-link" [routerLink]="['/dashboard']" tabindex="-1" 
@@ -39,7 +39,7 @@
       <!-- Left links -->
 
       <!-- Search form -->
-      <h6 class="mr-5" *ngIf="firstName != '' ">Hi, {{firstName}}!          </h6>
+     <!--  <h6 class="mr-5" *ngIf="firstName != '' ">Hi, {{firstName}}!          </h6> -->
       <button (click)="logout()" *ngIf="firstName != '' " class="btn btn-outline-primary" type="button">
         Logout
       </button>

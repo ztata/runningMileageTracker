@@ -1,5 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { createEmitAndSemanticDiagnosticsBuilderProgram } from 'typescript';
+import { callbackify } from 'util';
 import { ICreateRun } from '../Interfaces/ICreateRun';
 import { IUpdateRun } from '../Interfaces/IUpdateRun';
 
@@ -9,6 +12,8 @@ import { IUpdateRun } from '../Interfaces/IUpdateRun';
 export class RunService {
 
   constructor(private http: HttpClient) { }
+
+  
 
 
   private apiUri = "https://localhost:44324/api/loggedrun";
@@ -23,7 +28,9 @@ export class RunService {
       Length: run.Length,
       Date: run.Date
     }
-    return this.http.post('https://localhost:44324/api/loggedrun', bodyObject, {headers: headers}).subscribe();
+    return this.http.post('https://localhost:44324/api/loggedrun', bodyObject, {headers: headers}).subscribe(data => {
+      this.RetrieveRunDetails(bodyObject.UserId);
+    });
   }
 
   //updates details of run
@@ -32,10 +39,20 @@ export class RunService {
     return this.http.put(`${this.apiUri}`, run);
   }
 
-  //Retrieves details of a single run 
+  tempObject = {
+    
+  }
+
+
+  runList = new BehaviorSubject(this.tempObject);
+  
+
+  //Retrieves all run details for a single user 
   RetrieveRunDetails(id: number){
     console.log('called retrieve run details in run service');
-    return this.http.get(`${this.apiUri}/${id}`);
+    return this.http.get(`${this.apiUri}/${id}`).subscribe((data) =>{
+      this.runList.next(data);
+    });
   }
 
 

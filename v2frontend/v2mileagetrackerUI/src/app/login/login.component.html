@@ -1,33 +1,62 @@
-<p>login-page works!</p>
+<div class="container mt-5 mb-5">
+  <!--TITLE-->
+  <div class="row">
+    <div class="col text-center">
+      <h1>A Really Cool Title For An App Goes Here</h1>
+    </div>
+  </div>
 
-<form [formGroup]="formData" (submit)="Login()">
+  <!--SUBTITLE-->
+  <div class="row">
+    <div class="col text-center">
+      <h5>Enter your email and password below to get started!</h5>
+    </div>
+  </div>
 
-    <mdb-form-control class="mb-4">
-        <input mdbValidate mdbInput type="email" id="email" name="email" class="form-control"
-            formControlName="email" required />
-        <label mdbLabel class="form-label" for="Email">Email</label>
-        <mdb-error *ngIf="
-        email?.invalid && (email?.dirty || email?.touched)
-          ">Please enter a valid email</mdb-error>
-        <mdb-success *ngIf="
-        email?.valid && (email?.dirty || email?.touched)
-          ">Looks good!</mdb-success>
-    </mdb-form-control>
+  <!--LOGIN FORM-->
+  <div class="row">
+    <div class="col"></div>
+    <div class="col text-center">
+      <form [formGroup]="formData" (submit)="Login()">
+
+        <mdb-form-control class="mb-4">
+            <input mdbValidate mdbInput type="email" id="email" name="email" class="form-control"
+                formControlName="email" required />
+            <label mdbLabel class="form-label" for="Email">Email</label>
+            <mdb-error *ngIf="
+            email?.invalid && (email?.dirty || email?.touched)
+              ">Please enter a valid email</mdb-error>
+            <mdb-success *ngIf="
+            email?.valid && (email?.dirty || email?.touched)
+              ">Looks good!</mdb-success>
+        </mdb-form-control>
+    
+    
+        <mdb-form-control class="mb-4">
+          <input mdbValidate mdbInput type="text" id="password" class="form-control"
+              formControlName="password" name="password" required type="password" />
+          <label mdbLabel class="form-label" for="password">Password</label>
+          <mdb-error *ngIf="
+          password?.invalid && (password?.dirty || password?.touched)
+            ">A password is required</mdb-error>
+          <mdb-success *ngIf="
+          password?.valid && (password?.dirty || password?.touched)
+            ">Looks good!</mdb-success>
+      </mdb-form-control>
+    
+        <button type="submit" class="btn btn-primary btn-lg  mb-4" value="send" [disabled]="formData.invalid">Send</button>
+    </form>
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <!--SIGN UP LINK-->
+  <div class="row">
+    <div class="col text-center">
+      <a [routerLink]="['/signup']">Not signed up yet? Click here to make an account</a>
+    </div>
+  </div>
+</div>
 
 
-    <mdb-form-control class="mb-4">
-      <input mdbValidate mdbInput type="text" id="password" class="form-control"
-          formControlName="password" name="password" required type="password" />
-      <label mdbLabel class="form-label" for="password">Password</label>
-      <mdb-error *ngIf="
-      password?.invalid && (password?.dirty || password?.touched)
-        ">A password is required</mdb-error>
-      <mdb-success *ngIf="
-      password?.valid && (password?.dirty || password?.touched)
-        ">Looks good!</mdb-success>
-  </mdb-form-control>
 
-    <button type="submit" class="btn btn-primary btn-block mb-4" value="send" [disabled]="formData.invalid">Send</button>
-</form>
-
-<a [routerLink]="['/signup']">Not signed up yet? Click here to make an account</a>

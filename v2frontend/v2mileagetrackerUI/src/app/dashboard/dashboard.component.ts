@@ -18,10 +18,12 @@ export class DashboardComponent implements OnInit {
   constructor(
     private builder: UntypedFormBuilder, 
     private service: AuthenticationService, 
-    private runService: RunService) { }
+    private runService: RunService,
+    private router: Router) { }
 
+  runList: any;
   formData: any;
-
+ 
   get runName(){return this.formData.get('runName')}
  // get runDate(){return this.formData.get('runDate')}
   get runLength(){return this.formData.get('runLength')}
@@ -38,12 +40,18 @@ export class DashboardComponent implements OnInit {
       //runDate: new UntypedFormControl('', [Validators.required, Validators.pattern('/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/')])
     })
 
-    this.runService.RetrieveRunDetails(this.user.UserId).subscribe(
+    this.runService.RetrieveRunDetails(this.user.UserId)
+    this.runService.runList.subscribe((data: any) => {
+      this.runList = data
+    })
+    
+    
+    /* .subscribe(
       (result) => {
         this.runList = result
         console.log(this.runList)
       }
-    )
+    ) */
   }
 
 
@@ -55,7 +63,7 @@ export class DashboardComponent implements OnInit {
     UserId: ''
   };
 
-  runList: any;
+ 
 
   CreateRun(){
     let newRun: ICreateRun = {
@@ -68,6 +76,7 @@ export class DashboardComponent implements OnInit {
     }
 
     this.runService.LogRun(newRun);
+    this.router.navigate(['/dashboard'])
   }
 
 }
