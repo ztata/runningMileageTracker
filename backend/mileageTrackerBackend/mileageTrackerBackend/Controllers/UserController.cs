@@ -15,17 +15,17 @@ namespace mileageTrackerBackend.Controllers
     {
         // GET: api/<UserController>
         //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        public string Get()
+        {
+            string message = "API is working";
+            
+            return message;
+        }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
+        // GET https://localhost:44324/api/user/email/password
+        [HttpGet("{email}/{password}")]
         public User LoginUser(string email, string password)
         {
-            //ADD IN LOGIC HERE TO HASH THE PASSWORD AND COMPARE THE HASH NOT THE ACTUAL PASSWORD
-
             User result = null;
 
             bool validEmailAndPassword = HashPassword.CompareHashedPasswords(email, password);
@@ -41,59 +41,67 @@ namespace mileageTrackerBackend.Controllers
             return result;
         }
 
-        // POST api/<UserController>
+        // POST api/user include a json object in the body of the call
         [HttpPost]
-        public void CreateUser([FromBody] string firstName, string lastName, string email, string password)
+        public void CreateUser([FromBody]User user)
         {
-            bool doesEmailExist = HelperUserMethods.CheckIfUserEmailExists(email);
+            bool doesEmailExist = HelperUserMethods.CheckIfUserEmailExists(user.Email);
 
             if (doesEmailExist == false)
             {
-                User newUser = new User(firstName, lastName, email,password);
+                //User newUser = new User(firstName, lastName, email,password);
                 using (MileageTrackerContext context = new MileageTrackerContext())
                 {
-                    context.Users.Add(newUser);
+                    string hashedPassword = HashPassword.ConvertPasswordToHashedString(user.Password);
+                    user.Password = hashedPassword;
+                    context.Users.Add(user);
                     context.SaveChanges();
-                    //return "User Created Successfully";
+                    //User fullUserInfo = HelperUserMethods.ReturnNewUserWithId(user);
+                    //return fullUserInfo.Email;
                 }
             }
             else
             {
                 //return "User email already exists";
+                //need to include some exception handling here 
                 throw new Exception("A user with this email already exists");
             }
 
         }
 
-        // PUT api/<UserController>/5
+        // PUT api/user/id
         [HttpPut("{id}")]
-        public void UpdateUser(int id, [FromBody] string firstName, string lastName, string email, string password)
+        public void UpdateUser(User user)
         {
-            User user = null;
+            User result = null;
 
             using (MileageTrackerContext context = new MileageTrackerContext())
             {
                 try
                 {
-                    user = context.Users.Where(x => x.UserId == id).First();
-                    user.FirstName = firstName;
-                    user.LastName = lastName;
-                    bool doesEmailExist = HelperUserMethods.CheckIfUserEmailExists(email);
+                    result = context.Users.Where(x => x.UserId == user.UserId).First();
+                    result.FirstName = user.FirstName;
+                    result.LastName = user.LastName ;
+                    bool doesEmailExist = HelperUserMethods.CheckIfUserEmailExists(user.Email);
                     if (doesEmailExist == false)
                     {
-                        user.Email = firstName;
+                        result.Email = user.Email;
                     }
-                    else
+                    else if(doesEmailExist == true && result.Email != user.Email)
                     {
                         throw new Exception("A user with this email already exists in the database");
                     }
-                    string hashedPassword = HashPassword.ConvertPasswordToHashedString(password);
-                    user.Password = hashedPassword;
+                    bool doPasswordsMatch = HashPassword.CompareHashedPasswords(result.Email,user.Password);
+                    if (doPasswordsMatch == false)
+                    {
+                        string hashedPassword = HashPassword.ConvertPasswordToHashedString(user.Password);
+                        result.Password = hashedPassword;
+                    }
+                    
                     context.SaveChanges();
                 }
                 catch (Exception)
                 {
-
                     throw new Exception("No user with this id is found in the database");
                 }
             }

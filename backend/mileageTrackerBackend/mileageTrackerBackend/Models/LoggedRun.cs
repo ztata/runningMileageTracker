@@ -18,6 +18,8 @@ namespace mileageTrackerBackend.Models
         public int UserId { get; set; }
         public User User { get; set; }
 
+        public string Name { get; set; }
+
         public double Length { get; set; }
         public DateTime Date { get; set; }
 

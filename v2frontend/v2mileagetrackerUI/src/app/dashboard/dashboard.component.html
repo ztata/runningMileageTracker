@@ -1,0 +1,61 @@
+<p>dashboard works!</p>
+<h1>{{user.Email}}</h1>
+<h1>{{user.FirstName}}</h1>
+<h1>{{user.LastName}}</h1>
+<h1>{{user.UserId}}</h1>
+
+<h3>List of Runs</h3>
+<hr>
+<ul>
+    <li *ngFor="let run of runList">{{run.length}}</li>
+</ul>
+
+<form [formGroup]="formData" (submit)="CreateRun()">
+
+    <mdb-form-control class="mb-4">
+        <input mdbValidate mdbInput type="text" id="runName" class="form-control"
+            formControlName="runName" name="runName" required />
+        <label mdbLabel class="form-label" for="runName">Name</label>
+        <mdb-error *ngIf="
+        runName?.invalid && (runName?.dirty || runName?.touched)
+          ">A run name is required</mdb-error>
+        <mdb-success *ngIf="
+        runName?.valid && (runName?.dirty || runName?.touched)
+          ">Looks good!</mdb-success>
+    </mdb-form-control>
+
+    <mdb-form-control class="mb-4">
+      <input mdbValidate mdbInput type="number" id="runLength" class="form-control"
+          formControlName="runLength" name="runLength" required />
+      <label mdbLabel class="form-label" for="runLength">Run Length</label>
+      <mdb-error *ngIf="
+      runLength?.invalid && (runLength?.dirty || runLength?.touched)
+        ">A run length is required</mdb-error>
+      <mdb-success *ngIf="
+      runLength?.valid && (runLength?.dirty || runLength?.touched)
+        ">Looks good!</mdb-success>
+  </mdb-form-control>
+
+   <!--  <mdb-form-control class="mb-4">
+      <input mdbValidate mdbInput type="text" id="runDate" class="form-control"
+          formControlName="runDate" name="runDate" required />
+      <label mdbLabel class="form-label" for="runDate">Date(DD/MM/YYYY)</label>
+      <mdb-error *ngIf="
+      runDate?.invalid && (runDate?.dirty || runDate?.touched)
+        ">A date is required</mdb-error>
+        <mdb-error *ngIf="
+      runDate?.invalid && (runDate?.dirty || runDate?.touched)
+        ">A date in DD/MM/YYYY format is required</mdb-error>
+      <mdb-success *ngIf="
+      runDate?.valid && (runDate?.dirty || runDate?.touched)
+        ">Looks good!</mdb-success>
+  </mdb-form-control> -->
+
+    <button type="submit" class="btn btn-primary btn-block mb-4" value="send" [disabled]="formData.invalid">Log Run</button>
+</form>
+
+
+
+
+
+

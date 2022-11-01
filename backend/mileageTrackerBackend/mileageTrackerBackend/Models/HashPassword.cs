@@ -36,6 +36,7 @@ namespace mileageTrackerBackend.Models
             User user = null;
             using (MileageTrackerContext context = new MileageTrackerContext())
             {
+                //NEED TO HANDLE EXCEPTION HERE IF THE USER DOES NOT EXIST IN THE DATABASE
                 user = context.Users.Where(x => x.Email == email).First();
             }
 

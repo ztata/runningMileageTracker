@@ -19,10 +19,19 @@ namespace mileageTrackerBackend.Models
                 }
                 catch (Exception)
                 {
-
                     return false;
                 }
             }
+        }
+
+        public static User ReturnNewUserWithId(User user)
+        {
+            User result = null;
+            using (MileageTrackerContext context = new MileageTrackerContext())
+            {
+                result = context.Users.Where(x => x.Email == user.Email).First();
+            }
+            return result;
         }
     }
 }

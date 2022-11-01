@@ -24,12 +24,15 @@ namespace mileageTrackerBackend.Models
         [Required]
         public string Email { get; set; }
 
-        [StringLength(40)]
         [Required]
         public string Password { get; set; }
 
         public ICollection<LoggedRun> Runs { get; set; }
 
+        public User()
+        {
+
+        }
         public User(string firstName, string lastName, string email, string password)
         {
             FirstName = firstName;

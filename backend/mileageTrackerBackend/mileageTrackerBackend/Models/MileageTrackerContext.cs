@@ -15,12 +15,12 @@ namespace mileageTrackerBackend.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json", optional: false);
-            var configuration = builder.Build();
-            var connectionString = configuration.GetValue<string>("ConnectionStrings:connectionString");
+            //var builder = new ConfigurationBuilder();
+            //builder.AddJsonFile("appsettings.json", optional: false);
+            //var configuration = builder.Build();
+            //var connectionString = configuration.GetValue<string>("ConnectionStrings:connectionString");
 
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=RunningMileageTracker;Trusted_Connection=True;");
         }
     }
 }

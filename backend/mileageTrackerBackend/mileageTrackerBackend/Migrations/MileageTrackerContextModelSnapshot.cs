@@ -32,6 +32,9 @@ namespace mileageTrackerBackend.Migrations
                     b.Property<double>("Length")
                         .HasColumnType("float");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -65,8 +68,7 @@ namespace mileageTrackerBackend.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 
